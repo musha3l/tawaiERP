@@ -1,0 +1,23 @@
+{
+ "align_labels_right": 0, 
+ "creation": "2018-07-24 11:18:16.957760", 
+ "css": ".barcode_image{\n    display: block !important;\n}", 
+ "custom_format": 1, 
+ "disabled": 0, 
+ "doc_type": "Administrative Decision", 
+ "docstatus": 0, 
+ "doctype": "Print Format", 
+ "font": "Default", 
+ "html": "\n<img class=\"barcode_image\" src=\"/files/AD-OUT-0003.png\" height=\"200px\" width=\"200px\" style=\"display: block !important;\"/>\n<p>/files/{{doc.transaction_number}}.png</p>", 
+ "idx": 0, 
+ "line_breaks": 0, 
+ "modified": "2018-07-24 12:07:15.698893", 
+ "modified_by": "Administrator", 
+ "module": "Administrative Communication", 
+ "name": "Administrative Decision Barcode", 
+ "owner": "Administrator", 
+ "print_format_builder": 0, 
+ "print_format_type": "Server", 
+ "show_section_headings": 0, 
+ "standard": "Yes"
+}

@@ -1,0 +1,97 @@
+<style>
+
+	.print-format{
+		max-width: 14.3in;
+	}
+	/* .text-right{
+		max-width: 70px;
+		word-wrap: break-word
+	}
+	.text-left{
+		max-width: 70px;
+		word-wrap: break-word
+	} */
+	td{
+		word-wrap: break-word;
+	}
+	table{
+		width: 0!important;
+	}
+</style>
+
+<div style="margin-bottom: 7px;">
+    {%= frappe.boot.letter_heads[frappe.defaults.get_default("letter_head")] %}
+</div>
+<h2 class="text-center">{%= __("Asset Depreciation And Balances") %}</h2>
+<p class="text-center">{%= filters.account && (filters.account + ", "+filters.report_date)  || "" %} {% if (frappe.boot.lang == "ar") { %}
+   {%= ("شركة تواري") %}
+    {% } else { %}
+    {%= ("Tawari") %}
+    {% }
+    %}
+    </p>
+<hr>
+<table class="table table-bordered" {% if (frappe.boot.lang == "ar") { %} style="direction: rtl" {% } %}>
+    <thead>
+        <tr >
+            <!-- <th {% if (frappe.boot.lang == "ar") { %} style="width: 15%;text-align: right!important" {% } else { %} style="width: 15%" {% } %}>{%= __("Asset Category") %}</th>
+            <th {% if (frappe.boot.lang == "ar") { %} style="width: 15%;text-align: right!important" {% } else { %} style="width: 15%" {% } %}>{%= __("Cost of Sold Asset") %}</th>
+            <th {% if (frappe.boot.lang == "ar") { %} style="width: 15%;text-align: right!important" {% } else { %} style="width: 15%" {% } %}>{%= __("Cost of Scrapped Asset") %}</th>
+            <th {% if (frappe.boot.lang == "ar") { %} style="width: 15%;text-align: right!important" {% } else { %} style="width: 15%" {% } %}>{%= __("Depreciation Eliminated due to disposal of assets") %}</th>
+            <th {% if (frappe.boot.lang == "ar") { %} style="width: 40%;text-align: right!important" {% } else { %} style="width: 40%" {% } %}>{%= __("Depreciation Amount during the period") %}</th> -->
+            {% for(var i=1, l=report.columns.length; i<l; i++) { %}
+				<th  {% if (frappe.boot.lang == "ar") { %} class="text-right" style="width: {{report.columns.length /12}}%;text-align: right!important" {% } else { %} class="text-left" style="width: {{report.columns.length /12}}%" {% } %}><p>{%= __(report.columns[i].label)%}</p></th>
+			{% } %}
+        </tr>
+    </thead>
+    <tbody>
+        <!-- {% for(var i=0, l=data.length; i
+        <l; i++) { %} {% if (data[i][ "asset_category"]) { %} <tr>
+            <td>{%= data[i]["asset_category"] %}</td>
+            <td>{%= data[i]["cost_of_sold_asset"] %}</td>
+            <td>{%= data[i]["cost_of_scrapped_asset"] %}</td>
+            <td>{%= data[i]["depreciation_eliminated_during_the_period"] %}</td>
+            <td>{%= data[i]["depreciation_amount_during_the_period"] %}</td>
+            </tr>
+            {% } %} {% } %} -->
+            {% for(var j=0, k=data.length; j<k; j++) { %}
+			{%
+				var row = data[j];
+			%}
+			<tr>
+				{% for(var i=1, l=report.columns.length; i<l; i++) { %}
+					<td {% if (frappe.boot.lang == "ar") { %} class="text-right" style="width: {{report.columns.length /12}}%;text-align: right!important" {% } else { %} class="text-left" style="width: {{report.columns.length /12}}%" {% } %}>
+						{% var fieldname = report.columns[i].field; %}
+						{% if (report.columns[i].fieldtype=='Currency' && !isNaN(row[fieldname])) { %}
+							{% if (frappe.boot.lang == "ar") { %}
+							<p>{%= format_currency(row[fieldname], "ر.س")%}</p>
+							{% } else { %}
+									<p>{%= format_currency(row[fieldname], " ") + " SAR "%}</p>
+							{% }
+						%}	
+						{% } else { %}
+							{% if (!is_null(row[fieldname])) { %}
+								<p>{%= __(row[fieldname])%}</p>
+							{% } %}
+						{% } %}
+					</td>
+				{% } %}
+			</tr>
+		{% } %}
+    </tbody>
+</table>
+<p class="text-right text-muted">{%= __("Printed On") %}: {%= frappe.datetime.str_to_user(frappe.datetime.get_datetime_as_string()) %}</p>
+
+<br>
+
+    <table class="text-left text-muted">
+        <tr >
+			<td>{%= __("Printed By") %}: </td>
+		</tr>
+		<tr style="margin-top:15px;">
+			<td>
+				{%= frappe.boot.user.first_name %} {% if (frappe.boot.user.last_name) { %} {%= frappe.boot.user.last_name %} {% } %}
+			</td>
+        </tr>
+	</table>
+

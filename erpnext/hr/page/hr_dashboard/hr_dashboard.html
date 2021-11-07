@@ -1,0 +1,183 @@
+
+<div class="row">
+	<div class="col-lg-12 col-md-12 text-center" style="padding: 0;margin-top: 20px;">
+		<div class="row stat_area">
+			<div class="col-xs-6 col-sm-4 col-md-4 col-lg-4">
+				<div class="statistic-box dash2">
+					<i class="fa fa-users statistic_icon"></i>
+					<div class=small>عدد الموظفين</div>
+					<h2><span class=count-number id = "all_employee" >--</span></h2>
+					<div class="sparkline3 text-center"></div>
+				</div>
+			</div>
+			<div class="col-xs-6 col-sm-4 col-md-4 col-lg-4">
+				<div class="statistic-box dash2">
+					<i class="fa fa-users statistic_icon"></i>
+					<div class=small>عدد الموظفين السعوديين</div>
+					<h2><span class=count-number id = "saudi_employee">--</span></h2>
+					<div class="sparkline1 text-center"></div>
+				</div>
+			</div>
+			<div class="col-xs-6 col-sm-4 col-md-4 col-lg-4">
+				<div class="statistic-box dash2">
+					<i class="fa fa-users statistic_icon"></i>
+					<div class=small>عدد الموظفين الغير سعوديين</div>
+					<h2><span class=count-number id = "none_saudi_employee">--</span></h2>
+					<div class="sparkline1 text-center"></div>
+				</div>
+			</div>
+
+		</div>
+	</div>
+
+</div>
+
+<div class="row text-center">
+	<div class="col-sm-12 col-md-3">
+		<div class="panel panel-bd lobidrag">
+			<div class="panel-heading">
+				<div class="panel-title">
+					<h4>حضور الموظفين</h4>
+				</div>
+			</div>
+			<div class="panel-body">
+				<div id="morris-donut-chart-attendance" class="panel_chart"></div>
+			</div>
+		</div>
+	</div>
+	<div class="col-sm-12 col-md-3">
+		<div class="panel panel-bd lobidrag">
+			<div class="panel-heading">
+				<div class="panel-title">
+					<h4>الدرجات</h4>
+				</div>
+			</div>
+			<div class="panel-body">
+				<div id="morris-donut-chart-grade" class="panel_chart"></div>
+			</div>
+		</div>
+	</div>
+	<div class="col-sm-12 col-md-3">
+		<div class="panel panel-bd lobidrag">
+			<div class="panel-heading">
+				<div class="panel-title">
+					<h4>انواع الجنسيات</h4>
+				</div>
+			</div>
+			<div class="panel-body">
+				<div id="morris-donut-chart-nationality" class="panel_chart"></div>
+			</div>
+		</div>
+	</div>
+	<div class="col-sm-12 col-md-3">
+		<div class="panel panel-bd lobidrag">
+			<div class="panel-heading">
+				<div class="panel-title">
+					<h4>رجال \ نساء</h4>
+				</div>
+			</div>
+			<div class="panel-body">
+				<div id="morris-donut-chart-gender" class="panel_chart"></div>
+			</div>
+		</div>
+	</div>
+
+</div>
+<div class="row">
+	<div class="col-sm-12 col-md-12" style="z-index: 1;">
+		<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse col-sm-12 col-md-12" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        <li><a >فلترة</a></li>
+      </ul>
+      <form class="col-sm-6 col-md-2" style="padding-top: 10px;">
+        <div class="form-group employee-filter">
+          
+        </div>
+      </form>
+      
+      <form class="col-sm-6 col-md-2"style="padding-top: 10px;">
+        <div class="form-group department-filter">
+          
+        </div>
+      </form>
+      
+      <form class="col-sm-6 col-md-2"style="display: none;padding-top: 10px;">
+        <div class="form-group leave-type-filter">   
+        </div>
+      </form>
+     
+      <form class="col-sm-6 col-md-2"style="margin: 15px;">
+        <div class="form-group reset-filter">   
+        </div>
+      </form>
+      
+      <ul class="nav navbar-nav navbar-right">
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">الفترات <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="#">شهري</a></li>
+            <li><a href="#">نصف سنوي</a></li>
+            <li><a href="#">سنوي</a></li>
+          </ul>
+        </li>
+      </ul>
+     
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+	</div>
+
+	<div class="col-sm-12 col-md-12">
+		<div class="panel panel-bd lobidrag">
+			<div class="panel-heading">
+				<div class="panel-title">
+					<h4>الاجازات</h4>
+				</div>
+			</div>
+			<div class="panel-body">
+				<div id="morris-line-chart-leaves"></div>
+			</div>
+		</div>
+	</div>
+	<div class="col-sm-12 col-md-12">
+		<div class="panel lobidisable panel-bd">
+			<div class="panel-heading">
+				<div class="panel-title">
+					<h4>اجازات الموظفين الاخيرة</h4>
+				</div>
+			</div>
+			<div class="panel-body">
+				<div class="table-responsive">
+					<table class="table table-bordered table table-striped" style="text-align: right;">
+						<thead>
+							<tr>
+								<th>اسم الموظف</th>
+								<th>عدد الايام</th>
+								<th>حالة الطلب</th>
+								<th>نوع الاجازة</th>
+								<th>من</th>
+								<th>الي</th>
+							</tr>
+						</thead>
+						<tbody id ="latest-leaves">
+							<tr>
+								<td>احمد</td>
+								<td>5</td>
+								<td>موافق عليه</td>
+								<td>موافق عليه</td>
+								<td>10-2-2019</td>
+								<td>15-2-2019</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+  
+
+

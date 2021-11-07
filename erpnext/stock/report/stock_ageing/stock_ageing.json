@@ -1,0 +1,26 @@
+{
+ "add_total_row": 0, 
+ "apply_user_permissions": 1, 
+ "creation": "2013-12-02 17:09:31", 
+ "disabled": 0, 
+ "docstatus": 0, 
+ "doctype": "Report", 
+ "idx": 1, 
+ "is_standard": "Yes", 
+ "modified": "2019-01-10 14:50:08.108559", 
+ "modified_by": "Administrator", 
+ "module": "Stock", 
+ "name": "Stock Ageing", 
+ "owner": "Administrator", 
+ "ref_doctype": "Item", 
+ "report_name": "Stock Ageing", 
+ "report_type": "Script Report", 
+ "roles": [
+  {
+   "role": "Stock Manager"
+  }, 
+  {
+   "role": "Stock User"
+  }
+ ]
+}

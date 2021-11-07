@@ -1,0 +1,179 @@
+{%
+	if (report.columns.length > 150) {
+		frappe.throw(__("Too many columns. Export the report and print it using a spreadsheet application."));
+	}
+%}
+
+<style>
+	.financial-statements-important td {
+		font-weight: bold;
+	}
+
+	.financial-statements-blank-row td {
+		height: 37px;
+	}
+	.print-format{
+		{% if (filters.periodicity == "Monthly") { %}
+		max-width: 13.3in;
+{% } %}
+	}
+</style>
+<div style="margin-bottom: 7px;" class="text-center">
+	{%= frappe.boot.letter_heads[frappe.get_doc(":Company", filters.company).default_letter_head || frappe.defaults.get_default("letter_head")] %}
+</div>
+<h2 class="text-center">{%= __(report.report_name) %}</h2>
+{% if (frappe.boot.lang == "ar") { %}
+<h4 class="text-center">{%= ("شركة تواري") %}</h4>
+{% } else { %}
+<h4 class="text-center">{%= ("Tawari") %}	</h4>
+{% }
+%}
+
+
+{% if (filters.from_date) { %}
+	<h4 class="text-center">{%= dateutil.str_to_user(filters.from_date) %} - {%= dateutil.str_to_user(filters.to_date) %}</h4>
+{% } %}
+
+{% if (frappe.boot.lang == "ar") { %}
+{% if (filters.included_cost_centers) { %}
+	<h4 class="text-right" > {%=filters.included_cost_centers %} :مراكز التكلفة المضمنة</h4>
+	{% } %} 
+
+	{% if (filters.cost_center) { %}
+	<h4 class="text-right"> {%=filters.cost_center %} :مركز التكلفة </h4>
+	{% } %}
+	
+	{% if (filters.from_fiscal_year) { %}
+	<h4 class="text-right"> {%=filters.from_fiscal_year %} :تاريخ بدء السنة المالية</h4>
+	{% } %}
+
+	{% if (filters.to_fiscal_year) { %}
+	<h4 class="text-right"> {%=filters.to_fiscal_year %} :تاريخ انتهاء السنة المالية</h4>
+	{% } %}
+
+	{% if (filters.project) { %}
+	<h4 class="text-right">  {%=filters.project %} :المشروع </h4>
+	{% } %}
+{% } else { %}
+
+	{% if (filters.included_cost_centers) { %}
+	<h4>Included Cost Centers: {%=filters.included_cost_centers %}</h4>
+	{% } %} 
+
+	{% if (filters.cost_center) { %}
+	<h4>Included Cost Center: {%=filters.cost_center %}</h4>
+	{% } %}
+
+	{% if (filters.from_fiscal_year) { %}
+	<h4> Start Fiscal Year: {%=filters.from_fiscal_year %}</h4>
+	{% } %}
+
+	{% if (filters.to_fiscal_year) { %}
+	<h4>End Fiscal Year: {%=filters.to_fiscal_year %}</h4>
+	{% } %}
+
+	{% if (filters.project) { %}
+	<h4>Project: {%=filters.project %}</h4>
+	{% } %}
+{% } %}
+
+<hr>
+{% if (data.length != 0 ) { %}
+
+<table class="table table-bordered" {% if (frappe.boot.lang == "ar") { %} style="direction: rtl" {% } %}>
+	<thead>
+		<tr>
+			<th style="width: {%= 100 - (report.columns.length - 2) * 13 %}%"></th>
+			{% for(var i=2, l=report.columns.length; i<l; i++) { %}
+				<th {% if (frappe.boot.lang == "ar") { %} class="text-right" {% } else { %} class="text-left" {% } %}>{%= __(report.columns[i].label) %}</th>
+			{% } %}
+		</tr>
+	</thead>
+	<tbody>
+		{% for(var j=0, k=data.length; j<k; j++) { %}
+			{%
+				var row = data[j];
+				var row_class = data[j].parent_account ? "" : "financial-statements-important";
+				row_class += data[j].account_name ? "" : " financial-statements-blank-row";
+			%}
+			<tr class="{%= row_class %}">
+					{% if (row.account_name) { %}
+					{% if (frappe.boot.lang == "ar") { %}
+						<td class="text-right">
+							<span style="padding-right: {%= cint(data[j].indent) * 1 %}em">
+								{%= __(row.account_name) %}
+							</span>
+						</td>
+					{% } else { %}
+					<td class="text-left">
+							<span style="padding-left: {%= cint(data[j].indent) * 1 %}em">
+								{%= __(row.account_name) %}
+							</span>
+						</td>
+					{% }			
+					%} {% } %}
+
+				
+				{% for(var i=2, l=report.columns.length; i<l; i++) { %}
+					
+				<td class="text-right">
+						{% var fieldname = report.columns[i].field || report.columns[i].fieldname; %}
+						{% if (!is_null(row[fieldname])) { %}
+						{% if (frappe.boot.lang == "ar") { %}
+						{%= format_currency(row[fieldname], "ر.س") %}
+					{% } else { %}
+							{%= format_currency(row[fieldname], " ") + " SAR " %}
+					{% }
+				%}
+						{% } %}
+					</td>
+											
+				{% } %}
+			</tr>
+		{% } %}
+	</tbody>
+</table>
+
+
+{% } else { %}
+{% if (frappe.boot.lang == "ar") { %}
+<H1 class="text-center">!لا يوجد بيانات يمكن عرضها</H1>
+
+{% } else { %} 
+<H1 class="text-center">No Data to display!</H1>
+
+{% } %}
+{% } %}
+
+
+
+		{% if (frappe.boot.lang == "ar") { %}
+		<p class="text-right text-muted">تمت الطباعة في  {%= dateutil.str_to_user(dateutil.get_datetime_as_string()) %}</p>
+		<table align="left" class="text-left text-muted">
+			<tr>
+				<td> :قام بالطباعة </td>
+		</tr>
+		<tr style="margin-top:15px;">
+			<td>
+				{%= frappe.boot.user.first_name %} {% if (frappe.boot.user.last_name) { %} {%= frappe.boot.user.last_name %} {% } %}
+			</td>
+		</tr>
+	</table>
+
+		{% } else { %} 
+		<p class="text-right text-muted">Printed On {%= dateutil.str_to_user(dateutil.get_datetime_as_string()) %}</p>
+
+		<table align="left" class="text-left text-muted">
+		<tr>
+				<td>{%= ("Printed By") %}: </td>
+		</tr>
+		<tr style="margin-top:15px;">
+				<td >
+					{%= frappe.boot.user.first_name %} {% if (frappe.boot.user.last_name) { %} {%= frappe.boot.user.last_name %} {% } %}
+				</td>
+			</tr>
+		</table>
+		{% } %}
+
+
+

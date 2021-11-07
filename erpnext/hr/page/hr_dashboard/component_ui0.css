@@ -1,0 +1,53 @@
+.statistic-box.dash2 {
+    background-color: #10595f;
+    color: #fff;
+}
+.statistic-box {
+    padding: 15px;
+    position: relative;
+    text-align: center;
+    margin-bottom: 20px;
+}
+.statistic-box .statistic_icon, .statistic-box.dash2 .statistic_icon {
+    right: auto;
+    left: 20px;
+}
+.statistic-box.dash2 .statistic_icon {
+    position: absolute;
+    color: #277379;
+}
+.statistic-box .statistic_icon {
+    font-size: 50px;
+    margin-bottom: 15px;
+    display: block;
+}
+[class^="ti-"], [class*=" ti-"] {
+    font-family: 'themify';
+    speak: none;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+.statistic-box.dash2 .small, .statistic-box.dash2 h2 {
+    text-align: right;
+}
+.statistic-box .small {
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+small, .small {
+    font-size: 85%;
+}
+.statistic-box.dash2 .small, .statistic-box.dash2 h2 {
+    text-align: right;
+}
+.statistic-box h2 {
+    margin: 0;
+    font-weight: 800;
+    font-size: 24px;
+    margin-bottom: 25px;
+}	

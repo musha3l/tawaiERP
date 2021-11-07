@@ -1,0 +1,28 @@
+{
+ "content": null, 
+ "creation": "2019-03-01 21:51:02.880386", 
+ "docstatus": 0, 
+ "doctype": "Page", 
+ "idx": 0, 
+ "modified": "2019-03-01 21:51:27.898614", 
+ "modified_by": "Administrator", 
+ "module": "HR", 
+ "name": "hr-dashboard", 
+ "owner": "Administrator", 
+ "page_name": "HR Dashboard", 
+ "roles": [
+  {
+   "role": "HR Specialist"
+  }, 
+  {
+   "role": "HR User"
+  }, 
+  {
+   "role": "HR Manager"
+  }
+ ], 
+ "script": null, 
+ "standard": "Yes", 
+ "style": null, 
+ "system_page": 0
+}

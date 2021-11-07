@@ -1,0 +1,56 @@
+<div style="margin-bottom: 7px;">
+    {%= frappe.boot.letter_heads[frappe.defaults.get_default("letter_head")] %}
+</div>
+<h2 class="text-center">{%= __(report.report_name) %}</h2>
+<h4 class="text-center">{%= filters.account && (filters.account + ", "+filters.report_date)  || "" %} {% if (frappe.boot.lang == "ar") { %}
+    {%= ("شركة تواري") %}
+     {% } else { %}
+     {%= __("Tawari") %}
+     {% }
+     %}</h4>
+<hr>
+<table class="table table-bordered" {% if (frappe.boot.lang == "ar") { %} style="direction: rtl" {% } %}>
+    <thead>
+        <tr>
+            <th {% if (frappe.boot.lang == "ar") { %} style="width: 10%;text-align: right!important" {% } else { %} style="width: 10%" {% } %}>{%= __("Invoice") %}</th>
+            <th {% if (frappe.boot.lang == "ar") { %} style="width: 10%;text-align: right!important" {% } else { %} style="width: 10%" {% } %}>{%= __("Posting Date") %}</th>
+            <th {% if (frappe.boot.lang == "ar") { %} style="width: 10%;text-align: right!important" {% } else { %} style="width: 10%" {% } %}>{%= __("Customer ID") %}</th>
+            <th {% if (frappe.boot.lang == "ar") { %} style="width: 15%;text-align: right!important" {% } else { %} style="width: 15%" {% } %}>{%= __("Customer Name") %}</th>
+            <th {% if (frappe.boot.lang == "ar") { %} style="width: 15%;text-align: right!important" {% } else { %} style="width: 15%" {% } %}>{%= __("Receivable Account") %}</th>
+            <th {% if (frappe.boot.lang == "ar") { %} style="width: 10%;text-align: right!important" {% } else { %} style="width: 10%" {% } %}>{%= __("Net Total") %}</th>
+            <th {% if (frappe.boot.lang == "ar") { %} style="width: 15%;text-align: right!important" {% } else { %} style="width: 15%" {% } %}>{%= __("Grand Total") %}</th>
+            <th {% if (frappe.boot.lang == "ar") { %} style="width: 15%;text-align: right!important" {% } else { %} style="width: 15%" {% } %}>{%= __("Outstanding Amount") %}</th>
+
+        </tr>
+    </thead>
+    <tbody>
+     
+        {% for(var i=0, l=data.length; i
+        <l; i++) { %}  <tr>
+            <td>{%= __(data[i][__("Invoice")]) %}</td>
+            <td>{%= __(data[i][__("Posting Date")]) %}</td>
+            <td>{%= __(data[i][__("Customer Id")]) %}</td>
+            <td>{%= __(data[i][__("Customer Name")]) %}</td>
+            <td>{%= __(data[i][__("Receivable Account")]) %}</td>
+            <td>{%= __(data[i][__("Net Total")]) %}</td>
+            <td>{%= __(data[i][__("Grand Total")]) %}</td>
+            <td>{%= __(data[i][__("Outstanding Amount")]) %}</td>
+            </tr>
+           {% } %}
+
+    </tbody>
+</table>
+<p class="text-right text-muted">{%= __("Printed On") %}:  {%= dateutil.str_to_user(dateutil.get_datetime_as_string()) %}</p>
+
+<br>
+
+    <table class="text-left text-muted">
+        <tr >
+			<td>{%= __("Printed By") %}: </td>
+		</tr>
+		<tr style="margin-top:15px;">
+			<td>
+				{%= frappe.boot.user.first_name %} {% if (frappe.boot.user.last_name) { %} {%= frappe.boot.user.last_name %} {% } %}
+			</td>
+        </tr>
+	</table>

@@ -1,0 +1,319 @@
+
+<style>
+        .print-format{
+            max-width: 13.3in;
+        }
+    </style>
+<div style="margin-bottom: 7px;" class="text-center">
+	{%= frappe.boot.letter_heads[filters.letter_head || frappe.get_doc(":Company", filters.company).default_letter_head || frappe.defaults.get_default("letter_head")] %}
+</div>
+
+{% for(var i=0, l=data.length; i<l-2; i++) { %}
+
+  {% if(data[i][__("Voucher Type")] != data[i+1][__("Voucher Type")] ) { %}
+
+    <h2 class="text-center">{%= __("General Ledger") %}</h2>
+
+            {% break ;%}
+
+            {% } %}
+
+
+
+{% } %}
+
+
+
+{% for(var i=0, l=data.length; i<l-2; i++) { %}
+
+  {% if(data[i][__("Voucher Type")] == data[i+1][__("Voucher Type")] ) { %}
+
+     {% var indecator = true %}
+
+            {% } else { %}
+
+            {% break ;%}
+
+            {% } %}
+
+  {% if(indecator==true && i == data.length-3) { %}
+
+      <h2 class="text-center">{%= __(data[1][__("Voucher Type")]) %}</h2>
+
+               {% } %}
+
+
+
+
+{% } %}
+
+
+<h4 class="text-center">
+  <!-- {%= (filters.party || filters.account) && ((filters.party || filters.account) + ", ")  || "" %} -->
+
+  {% if (filters.party  ) { %}
+  {% if (filters.party_type == "Supplier"  ) { %}
+
+  {% if (data[2]["Party Name"]) { %}
+  {%= __(data[2][__("Party Name")]) + ", " %}
+  {% } else { %}
+  {%= filters.party_name + ", " %}
+  {% } %}
+      <!-- {%= filters.party_name + ", "%} -->
+  {% } else { %}
+    {%= filters.party + ", " %}
+  {% } %}
+
+	{% } else if (filters.account) { %}
+		{%= filters.account + ", " %}
+	{% } %}
+
+  {% if (frappe.boot.lang == "ar") { %}
+        {%= ("شركة تواري") %}
+         {% } else { %}
+         {%= __("Tawari") %}
+         {% }
+         %}</h4>
+<h5 class="text-center">
+	{%= frappe.datetime.str_to_user(filters.from_date) %}
+	{%= __("-") %}
+	{%= frappe.datetime.str_to_user(filters.to_date) %}
+</h5>
+<hr>
+<table class="table table-bordered" {% if (frappe.boot.lang == "ar") { %} style="direction: rtl" {% } %}>
+	<thead>
+		<tr>
+			<th {% if (frappe.boot.lang == "ar") { %} style="width: 15%;text-align: right!important" {% } else { %} style="width: 15%" {% } %}>{%= __("Posting date") %}</th>
+            <th {% if (frappe.boot.lang == "ar") { %} style="width: 15%;text-align: right!important" {% } else { %} style="width: 15%" {% } %}>{%= __("Voucher Type") %}</th>
+            <th {% if (frappe.boot.lang == "ar") { %} style="width: 15%;text-align: right!important" {% } else { %} style="width: 15%" {% } %}>{%= __("Voucher No") %}</th>
+            <th {% if (frappe.boot.lang == "ar") { %} style="width: 20%;text-align: right!important" {% } else { %} style="width: 20%" {% } %}>{%= __("Account") %}</th>
+            <th {% if (frappe.boot.lang == "ar") { %} style="width: 10%;text-align: right!important" {% } else { %} style="width: 10%" {% } %}>{%= __("Description") %}</th>
+
+            <th {% if (frappe.boot.lang == "ar") { %} style="width: 20%;text-align: right!important" {% } else { %} style="width: 20%" {% } %}>{%= __("Party") %}</th>
+			<th {% if (frappe.boot.lang == "ar") { %} style="width: 15%;text-align: right!important" {% } else { %} style="width: 15%" {% } %}>{%= __("Debit") %}</th>
+			<th {% if (frappe.boot.lang == "ar") { %} style="width: 15%;text-align: right!important" {% } else { %} style="width: 15%" {% } %}>{%= __("Credit") %}</th>
+            <th {% if (frappe.boot.lang == "ar") { %} style="width: 15%;text-align: right!important" {% } else { %} style="width: 15%" {% } %}>{%= __("Cost Center/Project") %}</th>
+            <th {% if (frappe.boot.lang == "ar") { %} style="width: 15%;text-align: right!important" {% } else { %} style="width: 15%" {% } %}>{%= __("Reason") %}</th>
+            <th {% if (frappe.boot.lang == "ar") { %} style="width: 15%;text-align: right!important" {% } else { %} style="width: 15%" {% } %}>{%= __("PO No") %}</th>
+
+
+		</tr>
+	</thead>
+	<tbody>
+
+		{% for(var i=0, l=data.length; i<l; i++) { %}
+			<tr>
+			{% if(data[i][__("Posting Date")]) { %}
+				<td>{%= frappe.datetime.str_to_user(data[i][__("Posting Date")]) %}</td>
+				<td>{%= __(data[i][__("Voucher Type")]) %}</td>
+                <td>{%= __(data[i][__("Voucher No")]) %}</td>
+                <td>{%= __(data[i][__("Account")]) %}</td>
+                <td>{%= __(data[i][__("Description")]) %}</td>
+				<td>
+					{% if(!(filters.party || filters.account)) { %}
+						{%= data[i][__("Party")] || data[i][__("Account")] %}
+						<br>
+					{% } %}
+
+					{{ __("Against") }}: {%= __(data[i][__("Against Account")]) %}
+					<br>{%= __("Remarks") %}: {%= __(data[i][__("Remarks")]) %}
+                </td>
+
+                {% if (frappe.boot.lang == "ar") { %}
+                        <td style="text-align: right">
+                                {%= data[i][__("Account")] && format_currency(data[i][__("Debit")], "ر.س") %}</td>
+                            <td style="text-align: right">
+                                {%= data[i][__("Account")] && format_currency(data[i][__("Credit")], "ر.س") %}</td>
+					{% } else { %}
+                            <td style="text-align: left">
+                                    {%= data[i][__("Account")] && format_currency(data[i][__("Debit")], " ") + " SAR " %}</td>
+                                <td style="text-align: left">
+                                    {%= data[i][__("Account")] && format_currency(data[i][__("Credit")], " ") + " SAR " %}</td>
+					{% }
+				%}
+
+                <td>{%= data[i][__("Cost Center")] %}
+                {% if(data[i][__("Project")]) { %} / {%= data[i][__("Project")] %} {% } %}</td>
+                <td>{%= data[i][__("Reason")] %}</td>
+                <td>{%= data[i][__("PO")] %}</td>
+
+			{% } else { %}
+				<td></td>
+				<td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+
+                <td><b>{%= frappe.format(data[i][__("Account")], {fieldtype: "Link"}) || "&nbsp;" %}</b></td>
+                {% if (frappe.boot.lang == "ar") { %}
+                        <td style="text-align: right">
+                                {%= data[i][__("Account")] && format_currency(data[i][__("Debit")], "ر.س") %}</td>
+                            <td style="text-align: right">
+                                {%= data[i][__("Account")] && format_currency(data[i][__("Credit")], "ر.س") %}</td>
+					{% } else { %}
+                            <td style="text-align: left">
+                                    {%= data[i][__("Account")] && format_currency(data[i][__("Debit")], " ") + " SAR " %}</td>
+                                <td style="text-align: left">
+                                    {%= data[i][__("Account")] && format_currency(data[i][__("Credit")], " ") + " SAR " %}</td>
+					{% }
+				%}
+
+                <td></td>
+                <td></td>
+                <td></td>
+
+			{% } %}
+			</tr>
+
+		{% } %}
+	</tbody>
+</table>
+<p class="text-right text-muted">{%= __("Printed On") %}:  {%= frappe.datetime.str_to_user(frappe.datetime.get_datetime_as_string()) %}</p>
+
+<table class="text-left text-muted">
+        <tr >
+			<td>{%= __("Printed By") %}: </td>
+		</tr>
+		<tr style="margin-top:15px;">
+			<td>
+				{%= frappe.boot.user.first_name %} {% if (frappe.boot.user.last_name) { %} {%= frappe.boot.user.last_name %} {% } %}
+			</td>
+        </tr>
+
+		</table>
+
+
+
+
+
+
+
+
+
+
+
+		<style type="text/css">
+			@media (min-width: 1200px) {
+        .container {
+            width: 970px;
+        }
+    }
+
+    .print-heading h2 {
+        font-size: 20px;
+        font-family: Calibri;
+        color: #00a4ad;
+    }
+
+    .letter-block {
+        margin-bottom: 30px;
+    }
+
+    .letter-block p {
+        margin: 0 0 2px;
+        font-size: 11px;
+    }
+
+    .col-xs-1,
+    .col-sm-1,
+    .col-md-1,
+    .col-lg-1,
+    .col-xs-2,
+    .col-sm-2,
+    .col-md-2,
+    .col-lg-2,
+    .col-xs-3,
+    .col-sm-3,
+    .col-md-3,
+    .col-lg-3,
+    .col-xs-4,
+    .col-sm-4,
+    .col-md-4,
+    .col-lg-4,
+    .col-xs-5,
+    .col-sm-5,
+    .col-md-5,
+    .col-lg-5,
+    .col-xs-6,
+    .col-sm-6,
+    .col-md-6,
+    .col-lg-6,
+    .col-xs-7,
+    .col-sm-7,
+    .col-md-7,
+    .col-lg-7,
+    .col-xs-8,
+    .col-sm-8,
+    .col-md-8,
+    .col-lg-8,
+    .col-xs-9,
+    .col-sm-9,
+    .col-md-9,
+    .col-lg-9,
+    .col-xs-10,
+    .col-sm-10,
+    .col-md-10,
+    .col-lg-10,
+    .col-xs-11,
+    .col-sm-11,
+    .col-md-11,
+    .col-lg-11,
+    .col-xs-12,
+    .col-sm-12,
+    .col-md-12,
+    .col-lg-12 {
+        padding-right: 0px;
+        padding-left: 0px;
+    }
+
+    table,
+    td{
+        border-collapse: collapse;
+        border-color: #95969A !important;
+        font-size: 13px;
+
+    }
+
+     th {
+        border-collapse: collapse;
+        border-color: #95969A !important;
+        font-size: 13px;
+        color:#fff;
+
+    }
+
+    .row {
+        margin-right: 0px;
+        margin-left: 0px;
+    }
+
+    .print-format .table th {
+        background-color: #00a4ad!important;
+        font-weight: 400;
+    }
+
+    .col-print-4 {
+        width: 33.3333333%;
+        float: left;
+    }
+
+    .pulled {
+        margin-top: -41px !important;
+    }
+
+    .col-print-offset-8 {
+        float: right;
+        width: 33.33333333%;
+    }
+    .col-print-offset-6 {
+        float: right;
+        width: 50%;
+    }
+    .bordered{
+    	border-top: 1px solid #00a4ad;
+    	font-style: italic;
+    	font-size: 12px;
+    	color: #00a4ad;
+    }
+
+		</style>

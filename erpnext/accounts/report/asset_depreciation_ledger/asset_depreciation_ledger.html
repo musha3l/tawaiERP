@@ -1,0 +1,47 @@
+<div style="margin-bottom: 7px;">
+    {%= frappe.boot.letter_heads[frappe.defaults.get_default("letter_head")] %}
+</div>
+<h2 class="text-center">{%= __("Asset Depreciation Ledger") %}</h2>
+<h4 class="text-center">{%= filters.account && (filters.account + ", "+filters.report_date)  || "" %} {% if (frappe.boot.lang == "ar") { %}
+        {%= ("شركة تواري") %}
+         {% } else { %}
+         {%= __("Tawari") %}
+         {% }
+         %}</h4>
+<hr>
+<table class="table table-bordered" {% if (frappe.boot.lang == "ar") { %} style="direction: rtl" {% } %}>
+    <thead>
+        <tr>
+            <th {% if (frappe.boot.lang == "ar") { %} style="width: 15%;text-align: right!important" {% } else { %} style="width: 15%" {% } %}>{%= __("Asset") %}</th>
+            <th {% if (frappe.boot.lang == "ar") { %} style="width: 15%;text-align: right!important" {% } else { %} style="width: 15%" {% } %}>{%= __("Depreciation Date") %}</th>
+            <th {% if (frappe.boot.lang == "ar") { %} style="width: 15%;text-align: right!important" {% } else { %} style="width: 15%" {% } %}>{%= __("Depreciation Method") %}</th>
+            <th {% if (frappe.boot.lang == "ar") { %} style="width: 15%;text-align: right!important" {% } else { %} style="width: 15%" {% } %}>{%= __("Depreciation Amount") %}</th>
+            <th {% if (frappe.boot.lang == "ar") { %} style="width: 40%;text-align: right!important" {% } else { %} style="width: 40%" {% } %}>{%= __("Current Status") %}</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for(var i=0, l=data.length; i
+        <l; i++) { %} {% if (data[i][ __("depreciation_date")]) { %} <tr>
+            <td>{%= __(data[i][__("asset")]) %}</td>
+            <td>{%= __(dateutil.str_to_user(data[i][__("depreciation_date")])) %}</td>
+            <td>{%= __(data[i][__("depreciation_method")]) %}</td>
+            <td>{%= __(data[i][__("depreciation_amount")]) %}</td>
+            <td>{%= __(data[i][__("status")]) %}</td>
+            </tr>
+            {% } %} {% } %}
+    </tbody>
+</table>
+<p class="text-right text-muted">{%= __("Printed On") %}: {%= dateutil.str_to_user(dateutil.get_datetime_as_string()) %}</p>
+
+<br>
+
+    <table class="text-left text-muted">
+        <tr >
+			<td>{%= __("Printed By") %}: </td>
+		</tr>
+		<tr style="margin-top:15px;">
+			<td>
+				{%= frappe.boot.user.first_name %} {% if (frappe.boot.user.last_name) { %} {%= frappe.boot.user.last_name %} {% } %}
+			</td>
+        </tr>
+	</table>

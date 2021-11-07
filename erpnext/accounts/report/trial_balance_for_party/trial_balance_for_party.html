@@ -1,0 +1,113 @@
+<div style="margin-bottom: 7px;">
+    {%= frappe.boot.letter_heads[frappe.defaults.get_default("letter_head")] %}
+</div>
+<h2 class="text-center">{%= __(report.report_name) %}</h2>
+
+<!-- <h4 class="text-center">{%= filters.account && (filters.account + ", "+filters.report_date)  || "" %} {% if (frappe.boot.lang == "ar") { %}
+        {%= ("شركة تواري") %}
+         {% } else { %}
+         {%= __("Tawari") %}
+         {% }
+         %}</h4> -->
+
+
+<h4>
+{% if(filters.company) { %}Company: {%= filters.company %}<br>{% } %}
+{% if(filters.fiscal_year) { %}Fiscal Year: {%= filters.fiscal_year %}<br>{% } %}
+{% if(filters.from_date) { %}From Date: {%= filters.from_date %}<br>{% } %}
+{% if(filters.to_date) { %}To Date: {%= filters.to_date %}<br>{% } %}
+{% if(filters.party_type) { %}Party Type: {%= filters.party_type %}<br>{% } %}
+{% if(filters.party) { %} {%= filters.party_type %}: {%= filters.party %}<br>{% } %}
+{% if(filters.party_group_or_type) { %}Party Group or Type: {%= filters.party_group_or_type %}<br>{% } %}
+<br>
+<br><br>
+
+
+
+{%= frappe.db.get_value("Customer", "CUST-GOV-00002", "customer_name") %}
+{%= frappe.db.get_value("Customer", "CUST-GOV-00002", "customer_name")[0] %}
+
+</h4>
+
+
+
+<hr>
+<table class="table table-bordered" {% if (frappe.boot.lang == "ar") { %} style="direction: rtl" {% } %}>
+
+    <thead>
+
+        <tr>
+			<th {% if (frappe.boot.lang == "ar") { %} style="width: 25%;text-align: right!important" {% } else { %} style="width: 25%" {% } %}>{%= __("Party Name") %}</th>
+            {% if("supplier_type" in data[0]) { %}
+                <th {% if (frappe.boot.lang == "ar") { %} style="width: 15%;text-align: right!important" {% } else { %} style="width: 15%" {% } %}>{%= __("Supplier Type") %}</th>
+            {% } %}
+            {% if("customer_group" in data[0]) { %}
+                <th {% if (frappe.boot.lang == "ar") { %} style="width: 15%;text-align: right!important" {% } else { %} style="width: 15%" {% } %}>{%= __("Customer Group") %}</th>
+            {% } %}
+            <th {% if (frappe.boot.lang == "ar") { %} style="width: 12%;text-align: right!important" {% } else { %} style="width: 12%" {% } %}>{%= __("Opening") +" ("+ __("Dr")+")" %}</th>
+            <th {% if (frappe.boot.lang == "ar") { %} style="width: 12%;text-align: right!important" {% } else { %} style="width: 12%" {% } %}>{%= __("Opening") +" ("+ __("Cr")+")" %}</th>
+            <th {% if (frappe.boot.lang == "ar") { %} style="width: 12%;text-align: right!important" {% } else { %} style="width: 12%" {% } %}>{%= __("Debit") %}</th>
+            <th {% if (frappe.boot.lang == "ar") { %} style="width: 12%;text-align: right!important" {% } else { %} style="width: 12%" {% } %}>{%= __("Credit") %}</th>
+            <th {% if (frappe.boot.lang == "ar") { %} style="width: 15%;text-align: right!important" {% } else { %} style="width: 15%" {% } %}>{%= __("Closing") +" ("+ __("Dr")+")" %}</th>
+            <th {% if (frappe.boot.lang == "ar") { %} style="width: 15%;text-align: right!important" {% } else { %} style="width: 15%" {% } %}>{%= __("Closing") +" ("+ __("Cr")+")" %}</th>
+            <th {% if (frappe.boot.lang == "ar") { %} style="width: 8%;text-align: right!important" {% } else { %} style="width: 8%" {% } %}>{%= __("Currency") %}</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for(var i=0, l=data.length; i < l; i++) 
+            { %} 
+            
+			<tr>
+            <td>{%= data[i]["party"] %}</td>
+            <td>
+                {% if(data[i][("supplier_type")]) { %}
+                    {%= __(data[i][("supplier_type")])  %}
+                {% } %}
+                {% if(data[i]["customer_group"]) { %}
+                    {%= __(data[i]["customer_group"])  %}
+                {% } %}
+
+            </td>
+            {% if (frappe.boot.lang == "ar") { %}
+            <td>{%= format_currency(data[i]["opening_debit"]) %}</td>
+            <td>{%= format_currency(data[i]["opening_credit"]) %}</td>
+            <td>{%= format_currency(data[i]["debit"]) %}</td>
+            <td>{%= format_currency(data[i]["credit"])  %}</td>
+            <td>{%= format_currency(data[i]["closing_debit"]) %}</td>
+            <td>{%= format_currency(data[i]["closing_credit"]) %}</td>
+            <td>{%= __(data[i]["currency"]) %}</td>
+
+			{% } else { %}
+            <td>{%= (format_currency(data[i]["opening_debit"]," ") + " SAR ") %}</td>
+            <td>{%= (format_currency(data[i]["opening_credit"]," ") + " SAR ") %}</td>
+            <td>{%= (format_currency(data[i]["debit"] ," ") + " SAR ") %}</td>
+            <td>{%= (format_currency(data[i]["credit"]," ") + " SAR ")  %}</td>
+            <td>{%= (format_currency(data[i]["closing_debit"] ," ") + " SAR ") %}</td>
+            <td>{%= (format_currency(data[i]["closing_credit"] ," ") + " SAR ") %}</td>
+            <td>{%= (data[i]["currency"]) %}</td>
+
+					{% }
+				%}
+
+
+            </tr>
+            {% } 
+             
+             %}
+
+    </tbody>
+</table>
+<p class="text-right text-muted">{%= __("Printed On") %}: {%= dateutil.str_to_user(dateutil.get_datetime_as_string()) %}</p>
+
+<br>
+
+    <table class="text-left text-muted">
+        <tr >
+			<td>{%= __("Printed By") %}: </td>
+		</tr>
+		<tr style="margin-top:15px;">
+			<td>
+				{%= frappe.boot.user.first_name %} {% if (frappe.boot.user.last_name) { %} {%= frappe.boot.user.last_name %} {% } %}
+			</td>
+        </tr>
+	</table>

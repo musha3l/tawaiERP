@@ -1,0 +1,63 @@
+<div style="margin-bottom: 7px;">
+    {%= frappe.boot.letter_heads[frappe.defaults.get_default("letter_head")] %}
+</div>
+<h2 class="text-center">{%= __(report.report_name) %}</h2>
+<h4 class="text-center">{%= filters.account && (filters.account + ", "+filters.report_date)  || "" %} {% if (frappe.boot.lang == "ar") { %}
+    {%= ("شركة تواري") %}
+     {% } else { %}
+     {%= __("Tawari") %}
+     {% }
+     %}</h4>
+<hr>
+<table class="table table-bordered" {% if (frappe.boot.lang == "ar") { %} style="direction: rtl" {% } %}>
+    <thead>
+        <tr>
+            <th {% if (frappe.boot.lang == "ar") { %} style="width: 15%;text-align: right!important" {% } else { %} style="width: 15%" {% } %}>{%= __("Fixed Asset") %}</th>
+            <th {% if (frappe.boot.lang == "ar") { %} style="width: 15%;text-align: right!important" {% } else { %} style="width: 15%" {% } %}>{%= __("Asset Category") %}</th>
+            <th {% if (frappe.boot.lang == "ar") { %} style="width: 20%;text-align: right!important" {% } else { %} style="width: 20%" {% } %}>{%= __("Item Code") %}</th>
+            <th {% if (frappe.boot.lang == "ar") { %} style="width: 20%;text-align: right!important" {% } else { %} style="width: 20%" {% } %}>{%= __("Employee Name") %}</th>
+            <th {% if (frappe.boot.lang == "ar") { %} style="width: 15%;text-align: right!important" {% } else { %} style="width: 15%" {% } %}>{%= __("Employee Designation") %}</th>
+            <th {% if (frappe.boot.lang == "ar") { %} style="width: 15%;text-align: right!important" {% } else { %} style="width: 15%" {% } %}>{%= __("Employee Department") %}</th>   
+        </tr>
+    </thead>
+    <tbody>
+     
+        {% for(var i=0, l=data.length; i
+        <l; i++) { %}  <tr>
+            <td>{%= __(data[i][__("Fixed Asset")]) %}</td>
+            <td>{%= __(data[i][__("Asset Category")]) %}</td>
+            <td>{%= __(data[i][__("Item Code")]) %}</td>
+            <td>{%= __(data[i][__("Employee Name")]) %}</td>
+            <td>{%= __(data[i][__("Employee Designation")]) %}</td>
+            <td>{%= __(data[i][__("Employee Department")]) %}</td>  
+            </tr>
+           {% } %}
+
+    </tbody>
+</table>
+<div style="margin-top: 120px   ;margin-bottom: : 20px;">
+        <div class="row">
+            <div class="col-lg-3 col-md-3 col-xs-3 text-center col-print-3" style="border-top-style: solid;    border-width: 1px;">
+                {{ __("Accounts Manager")}}
+            </div>
+            <div class="col-lg-3 col-md-3 col-xs-3 col-print-3"></div>
+            <div class="col-lg-3 col-md-3 col-xs-3 col-print-3"></div>
+            <div class="col-lg-3 col-md-3 col-xs-3 text-center col-print-3" style="border-top-style: solid;    border-width: 1px;">{{ __("Employee")}}</div>
+        </div>
+    </div>
+<br>
+
+<p class="text-right text-muted">{%= __("Printed On") %}:  {%= dateutil.str_to_user(dateutil.get_datetime_as_string()) %}</p>
+
+<br>
+
+    <table class="text-left text-muted">
+        <tr >
+			<td>{%= __("Printed By") %}: </td>
+		</tr>
+		<tr style="margin-top:15px;">
+			<td>
+				{%= frappe.boot.user.first_name %} {% if (frappe.boot.user.last_name) { %} {%= frappe.boot.user.last_name %} {% } %}
+			</td>
+        </tr>
+	</table>
